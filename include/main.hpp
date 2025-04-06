@@ -21,3 +21,5 @@ can_obj_car_h_t dbc;
 TCU tcu(90, &acc_opto, &tsv_opto, &acc_can, &dbc);
 
 Metro can_timer(1000);
+
+uint32_t epoch;

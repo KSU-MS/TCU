@@ -3,9 +3,10 @@
 #define ACCUMULATOR_CAN_BAUD_RATE 500000
 
 // Configuration solder-jumpers
-#define CONFIG_PIN [] { 4, 5, 6 }
+// #define CONFIG_PIN [] { 4, 5, 6 }
+
 // Status LEDs
-#define STATUS_LED [] { 0, 1, 2, 3 }
+// #define STATUS_LED [] { 0, 1, 2, 3 }
 
 // Relays
 #define SHUTDOWN_CTRL_PIN 13
@@ -26,9 +27,5 @@
 #define V2F_slope_ts 7.22  // Gradient constant
 #define V2F_ofs_ts -8.7202 // offset / y-intercept consant
 
-// Voltage dividers upstream of V-F converters:
-// R31+R32+R36+R37 = 2.55M, R39 = 39k, Rtotal = 2.55M+39k
-// gain = R39/(Rtotal)
-// Our values:
-// 66500/(2550000+66500)
-#define gainVoltageDivider 0.02541563156
+// Voltage dividers upstream of V-F converters: 39k/(2.55M+39k)
+#define gainVoltageDivider 0.0150637311703

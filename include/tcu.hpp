@@ -42,6 +42,10 @@ public:
   inline bool set_state(state target_state) { current_state = target_state; }
   inline state get_state() { return current_state; }
 
+  inline double get_target_precharge_percent() {
+    return this->target_precharge_percent;
+  }
+
   float get_acc_voltage() {
     this->current_acc_voltage = (acc_opto->get_frequency() - V2F_ofs_accu) /
                                 V2F_slope_accu / gainVoltageDivider;
