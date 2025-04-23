@@ -35,8 +35,8 @@ void freq::update(bool state) {
     pulse_high = millis() - pulse_start;
 
     last_state = false;
-  } else if (attempts > 10000000) {
-    pulse_width = 100000000;
+  } else if (attempts > 100000) {
+    pulse_width = 100000;
   }
 
   attempts++;

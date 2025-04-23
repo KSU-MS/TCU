@@ -68,25 +68,27 @@ public:
 
   void update_acc_voltage(bool pin_state) {
     acc_opto->update(pin_state);
-    current_acc_voltage = acc_opto->get_frequency() / V2F_factor;
+    current_acc_voltage = (acc_opto->get_frequency() - V2F_offset) / V2F_factor;
   }
   void update_tsv_voltage(bool pin_state) {
     tsv_opto->update(pin_state);
-    current_tsv_voltage = tsv_opto->get_frequency() / V2F_factor;
+    current_tsv_voltage = (tsv_opto->get_frequency() - V2F_offset) / V2F_factor;
   }
 
   void send_status_message() {
+    encode_can_0x069_precharge_state(dbc, current_state);
+    encode_can_0x069_precharge_errorCode(dbc, error_code);
     encode_can_0x069_precharge_accVoltageDiv100(dbc, current_acc_voltage / 100);
     encode_can_0x069_precharge_accVoltageMod100(
         dbc, (int(current_acc_voltage) % 100));
     encode_can_0x069_precharge_tsVoltageDiv100(dbc, current_tsv_voltage / 100);
     encode_can_0x069_precharge_tsVoltageMod100(
         dbc, (int(current_tsv_voltage) % 100));
-    encode_can_0x069_precharge_errorCode(dbc, error_code);
-    encode_can_0x069_precharge_state(dbc, current_state);
 
     can_message out;
-    pack_message(dbc, CAN_ID_PRECHARGE_STATUS, &out.buf.val);
+    out.id = CAN_ID_PRECHARGE_STATUS;
+    out.length = pack_message(dbc, CAN_ID_PRECHARGE_STATUS, &out.buf.val);
+
     acc_can->send_controller_message(out);
   }
 };

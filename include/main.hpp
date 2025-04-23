@@ -21,4 +21,4 @@ can_obj_car_h_t dbc;
 TCU tcu(90, &acc_opto, &tsv_opto, &acc_can, &dbc);
 
 Metro can_timer(1000);
-Metro serial_timer(20);
+Metro serial_timer(1000);
