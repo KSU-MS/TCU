@@ -25,8 +25,8 @@ void setup() {
 }
 
 void loop() {
-  tcu.update_acc_voltage(digitalReadFast(FREQ_ACCU_PIN));
-  tcu.update_tsv_voltage(digitalReadFast(FREQ_TS_PIN));
+  tcu.update_acc_voltage(digitalRead(FREQ_ACCU_PIN));
+  tcu.update_tsv_voltage(digitalRead(FREQ_TS_PIN));
   sdc_power.update();
 
   if (can_timer.check()) {
@@ -53,7 +53,9 @@ void loop() {
     break;
 
   case PRECHARGE:
+    tcu.send_status_message();
     delay(4000);
+    tcu.send_status_message();
     Serial.println("Entering ONLINE");
 
     digitalWrite(STANDBY_LED, LOW);
@@ -63,12 +65,14 @@ void loop() {
 
     tcu.set_state(TS_ACTIVE, millis());
 
-    // Serial.printf("%5lums %4.1f%%  ACV:%5.1fV TSV:%5.1fV\n",
-    //               millis() - tcu.get_state_epoch(),
-    //               tcu.get_precharge_percent(), tcu.get_acc_voltage(),
-    //               tcu.get_tsv_voltage());
-    //
-    // // Check if precharge complete
+    // if (serial_timer.check()) {
+    //   Serial.printf("%5lums %4.1f%%  ACV:%5.1fV TSV:%5.1fV\n",
+    //                 millis() - tcu.get_state_epoch(),
+    //                 tcu.get_precharge_percent(), tcu.get_acc_voltage(),
+    //                 tcu.get_tsv_voltage());
+    // }
+
+    // Check if precharge complete
     // if (tcu.get_precharge_percent() >= tcu.get_target_precharge_percent() &&
     //     (millis() > tcu.get_state_epoch() + SETTLING_TIME)) {
     //   // Precharge too fast
@@ -119,10 +123,10 @@ void loop() {
     digitalWrite(ERROR_LED, HIGH);
 
     if (serial_timer.check()) {
-      Serial.printf("acc freq: %f\tacc voltage: %f\n",
+      Serial.printf("acc freq: %f Hz\tacc voltage: %f V\n",
                     tcu.acc_opto->get_frequency(), tcu.get_acc_voltage());
 
-      Serial.printf("tsv freq: %f\ttsv voltage: %f\n",
+      Serial.printf("tsv freq: %f Hz\ttsv voltage: %f V\n",
                     tcu.tsv_opto->get_frequency(), tcu.get_tsv_voltage());
     }
     break;

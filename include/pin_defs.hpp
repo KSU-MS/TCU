@@ -35,7 +35,7 @@
 #define gainVoltageDivider 0.0150637311703
 
 #define V2F_slope 7
-#define V2F_factor (V2F_slope / gainVoltageDivider)
+#define V2F_factor 0.179834854411
 #define V2F_offset -9
 
 // Look for "too fast" or "too slow" precharge, indicates wiring fault

@@ -68,11 +68,11 @@ public:
 
   void update_acc_voltage(bool pin_state) {
     acc_opto->update(pin_state);
-    current_acc_voltage = (acc_opto->get_frequency() - V2F_offset) / V2F_factor;
+    current_acc_voltage = (acc_opto->get_frequency() - V2F_offset) * V2F_factor;
   }
   void update_tsv_voltage(bool pin_state) {
     tsv_opto->update(pin_state);
-    current_tsv_voltage = (tsv_opto->get_frequency() - V2F_offset) / V2F_factor;
+    current_tsv_voltage = (tsv_opto->get_frequency() - V2F_offset) * V2F_factor;
   }
 
   void send_status_message() {
